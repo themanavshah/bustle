@@ -1,0 +1,11 @@
+import 'package:flutter/material.dart';
+
+class Explore extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+        child: Center(
+      child: Text("explorePage", style: TextStyle(color: Colors.white)),
+    ));
+  }
+}

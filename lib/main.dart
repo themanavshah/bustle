@@ -1,5 +1,9 @@
-import 'package:beats/ui/dashboard.dart';
+import 'package:beats/provider/bottomController.dart';
+import 'package:beats/provider/musicTimeLine.dart';
+import 'package:beats/ui/widgets/commonScaffold.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+//import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 void main() {
   runApp(MyApp());
@@ -14,7 +18,15 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: Dashboard(),
+      home: MultiProvider(
+        providers: [
+          ChangeNotifierProvider<MusicTimeLine>(
+              create: (ctx) => MusicTimeLine()),
+          ChangeNotifierProvider<BottomController>(
+              create: (ctx) => BottomController()),
+        ],
+        child: CommonScaffold(),
+      ),
     );
   }
 }
