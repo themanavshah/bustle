@@ -20,7 +20,6 @@ class CommonScaffold extends StatefulWidget {
 class _CommonScaffoldState extends State<CommonScaffold>
     with TickerProviderStateMixin {
   AnimationController rotationController;
-  var _musicPlaying = true;
   var blurHeight = 180;
 
   @override
@@ -49,12 +48,14 @@ class _CommonScaffoldState extends State<CommonScaffold>
 
   @override
   Widget build(BuildContext context) {
+    var musicTimeLine2 = Provider.of<MusicTimeLine>(context, listen: false);
     final controller = Provider.of<BottomController>(context);
     return Scaffold(
       backgroundColor: Colors.black,
       body: Stack(
         children: [
-          if (controller.pageSelected == 0) Dashboard(),
+          if (controller.pageSelected == 0)
+            Dashboard(musicTimeLine: musicTimeLine2, controller: controller),
           if (controller.pageSelected == 1) Explore(),
           if (controller.pageSelected == 2) Profile(),
           Padding(

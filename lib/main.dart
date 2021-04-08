@@ -3,7 +3,6 @@ import 'package:beats/provider/musicTimeLine.dart';
 import 'package:beats/ui/widgets/commonScaffold.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-//import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 void main() {
   runApp(MyApp());
