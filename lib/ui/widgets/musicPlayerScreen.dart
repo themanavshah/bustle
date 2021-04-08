@@ -1,40 +1,23 @@
 import 'dart:async';
 
+import 'package:beats/provider/bottomController.dart';
 import 'package:beats/provider/musicTimeLine.dart';
+import 'package:beats/ui/widgets/seconds_to_minutes.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class MusicPlayerScreen extends StatefulWidget {
+  MusicTimeLine musicTimeLine;
+  BottomController controller;
+
+  MusicPlayerScreen({this.musicTimeLine, this.controller});
+
   @override
   _MusicPlayerScreenState createState() => _MusicPlayerScreenState();
 }
 
 class _MusicPlayerScreenState extends State<MusicPlayerScreen> {
   var _isLiked = false;
-
-  String secondsToMinute(int time) {
-    var min = 0;
-    var sec = 0;
-    var timeSec = '';
-    var onesSec = 0;
-    for (int i = 1; i <= time; i++) {
-      //print(sec);
-      if (i % 60 == 0) {
-        min++;
-        sec = 0;
-        continue;
-      }
-      sec++;
-    }
-    if (sec == 0) {
-      timeSec = '$min:$onesSec$onesSec';
-    } else if (0 <= sec && sec <= 9) {
-      timeSec = '$min:$onesSec$sec';
-    } else {
-      timeSec = '$min:$sec';
-    }
-    return timeSec;
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -127,40 +110,25 @@ class _MusicPlayerScreenState extends State<MusicPlayerScreen> {
                   color: Colors.grey,
                   thickness: 1,
                 ),
-                Consumer<MusicTimeLine>(
-                  builder: (ctx, data, child) {
-                    return Divider(
-                      endIndent: 300 -
-                          double.parse('${(data.timeSpent * 300) / data.time}'),
-                      color: Colors.white,
-                      thickness: 3,
-                    );
-                  },
+                Divider(
+                  endIndent: 300 -
+                      double.parse(
+                          '${(widget.musicTimeLine.timeSpent * 300) / widget.musicTimeLine.time}'),
+                  color: Colors.white,
+                  thickness: 3,
                 ),
               ],
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Consumer<MusicTimeLine>(
-                  builder: (ctx, data, ch) {
-                    return Text(
-                      secondsToMinute(data.timeSpent),
-                      style: TextStyle(color: Colors.white),
-                    );
-                  },
+                Text(
+                  secondsToMinute(widget.musicTimeLine.timeSpent),
+                  style: TextStyle(color: Colors.white),
                 ),
-                Consumer<MusicTimeLine>(
-                  builder: (ctx, data, ch) {
-                    return Text(
-                      secondsToMinute(data.time),
-                      style: TextStyle(color: Colors.white),
-                    );
-                  },
-                  //                 child: Text(
-                  //   secondsToMinute(time),
-                  //   style: TextStyle(color: Colors.white),
-                  // ),
+                Text(
+                  secondsToMinute(widget.musicTimeLine.time),
+                  style: TextStyle(color: Colors.white),
                 ),
               ],
             ),
@@ -188,39 +156,21 @@ class _MusicPlayerScreenState extends State<MusicPlayerScreen> {
                   onPressed: () {},
                 ),
                 SizedBox(width: 5),
-                Consumer<MusicTimeLine>(
-                  builder: (_, data, __) {
-                    return IconButton(
-                      icon: Icon(
-                        data.isPlaying
-                            ? Icons.pause_circle_filled
-                            : Icons.play_circle_fill_rounded,
-                        size: 60,
-                        color: Colors.white,
-                      ),
-                      onPressed: () {
-                        setState(() {
-                          data.isPlaying = !data.isPlaying;
-                        });
-                        print("pause/play");
-                      },
-                    );
+                IconButton(
+                  icon: Icon(
+                    widget.musicTimeLine.isPlaying
+                        ? Icons.pause_circle_filled
+                        : Icons.play_circle_fill_rounded,
+                    size: 60,
+                    color: Colors.white,
+                  ),
+                  onPressed: () {
+                    setState(() {
+                      widget.musicTimeLine.isPlaying =
+                          !widget.musicTimeLine.isPlaying;
+                    });
+                    print("pause/play");
                   },
-                  //                 child: IconButton(
-                  //   icon: Icon(
-                  //     _isPlaying
-                  //         ? Icons.pause_circle_filled
-                  //         : Icons.play_circle_fill_rounded,
-                  //     size: 60,
-                  //     color: Colors.white,
-                  //   ),
-                  //   onPressed: () {
-                  //     setState(() {
-                  //       _isPlaying = !_isPlaying;
-                  //     });
-                  //     print("pause/play");
-                  //   },
-                  // ),
                 ),
                 SizedBox(width: 22),
                 IconButton(
