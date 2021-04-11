@@ -1,10 +1,18 @@
 import 'dart:ui';
 
+import 'package:beats/provider/bottomController.dart';
+import 'package:beats/provider/musicTimeLine.dart';
+import 'package:beats/ui/widgets/playlist.dart';
 import 'package:flutter/material.dart';
 
 import 'package:beats/data/genre_data.dart';
 
 class Dashboard extends StatefulWidget {
+  MusicTimeLine musicTimeLine;
+  BottomController controller;
+
+  Dashboard({this.musicTimeLine, this.controller});
+
   @override
   _DashboardState createState() => _DashboardState();
 }
@@ -122,7 +130,7 @@ class _DashboardState extends State<Dashboard> {
                   ),
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(20),
-                    color: Colors.grey.withOpacity(0.5),
+                    color: Colors.grey.withOpacity(0.3),
                   ),
                 ),
                 Padding(
@@ -194,33 +202,48 @@ class _DashboardState extends State<Dashboard> {
                   child: GridView.count(
                     crossAxisCount: 2,
                     children: List.generate(genreList.length, (index) {
-                      return Container(
-                          child: Padding(
-                        padding: const EdgeInsets.all(13.0),
-                        child: Container(
-                            child: Stack(
-                              children: [
-                                ClipRRect(
-                                  borderRadius: BorderRadius.circular(90),
-                                  child: Image.asset(genreList[index].imageUrl),
-                                ),
-                                Center(
-                                  child: Text(
-                                    genreList[index].name,
-                                    style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 25,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
-                                )
-                              ],
+                      return GestureDetector(
+                        onTap: () {
+                          print(genreList[index].name);
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => Playlist(
+                                musicTimeLine: widget.musicTimeLine,
+                                controller: widget.controller,
+                              ),
                             ),
-                            decoration: BoxDecoration(
-                              //color: colors[index],
-                              shape: BoxShape.circle,
-                            )),
-                      ));
+                          );
+                        },
+                        child: Container(
+                            child: Padding(
+                          padding: const EdgeInsets.all(13.0),
+                          child: Container(
+                              child: Stack(
+                                children: [
+                                  ClipRRect(
+                                    borderRadius: BorderRadius.circular(90),
+                                    child:
+                                        Image.asset(genreList[index].imageUrl),
+                                  ),
+                                  Center(
+                                    child: Text(
+                                      genreList[index].name,
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 25,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                  )
+                                ],
+                              ),
+                              decoration: BoxDecoration(
+                                //color: colors[index],
+                                shape: BoxShape.circle,
+                              )),
+                        )),
+                      );
                     }),
                   ),
                 ),

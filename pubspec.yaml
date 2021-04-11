@@ -22,9 +22,10 @@ environment:
 
 dependencies:
   flutter:
-    sdk: flutter
-  flutter_riverpod: ^0.13.1  
+    sdk: flutter 
+  flutter_riverpod: ^0.14.0+1
   provider: ^5.0.0
+  equatable: ^2.0.0
 
 
   # The following adds the Cupertino Icons font to your application.
@@ -34,7 +35,7 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  swipedetector: ^1.2.0  
+  swipedetector: ^1.2.0 
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
