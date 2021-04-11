@@ -59,10 +59,10 @@ class _CommonScaffoldState extends State<CommonScaffold>
             Dashboard(musicTimeLine: musicTimeLine2, controller: controller),
           if (controller.pageSelected == 1) Explore(),
           if (controller.pageSelected == 2) Profile(),
-          BottomNavigator(
-            musicTimeLine: musicTimeLine2,
-            controller: controller,
-          )
+          // BottomNavigator(
+          //   musicTimeLine: musicTimeLine2,
+          //   controller: controller,
+          // )
         ],
       ),
     );

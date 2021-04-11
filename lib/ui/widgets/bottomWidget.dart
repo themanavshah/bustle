@@ -2,7 +2,6 @@ import 'dart:ui';
 
 import 'package:beats/provider/bottomController.dart';
 import 'package:beats/provider/musicTimeLine.dart';
-import 'package:provider/provider.dart';
 import 'package:swipedetector/swipedetector.dart';
 import 'package:flutter/material.dart';
 
