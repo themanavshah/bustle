@@ -1,9 +1,14 @@
+import 'package:beats/provider/bottomController.dart';
 import 'package:beats/services.dart/auth.dart';
 import 'package:beats/ui/pages/signup.dart';
+import 'package:beats/ui/widgets/commonScaffold.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
 class Login extends StatefulWidget {
+  BottomController auth;
+
+  Login(auth);
   @override
   _LoginState createState() => _LoginState();
 }
@@ -131,18 +136,24 @@ class _LoginState extends State<Login> {
                   primary: Color(0xFFF89E63), // background // foreground
                 ),
                 onPressed: () {
-                  AuthService().login(email, password).then((val) {
+                  Auth().login(email, password).then((val) {
                     if (val.data['success']) {
                       token = val.data['token'];
+                      widget.auth.token = token;
                       print(token);
-                      Fluttertoast.showToast(
-                        msg: 'Authenticated!',
-                        toastLength: Toast.LENGTH_SHORT,
-                        gravity: ToastGravity.BOTTOM,
-                        backgroundColor: Colors.green,
-                        textColor: Colors.white,
-                        fontSize: 15,
-                      );
+                      // Navigator.push(
+                      //     context,
+                      //     MaterialPageRoute(
+                      //       builder: (context) => CommonScaffold(),
+                      //     ));
+                      // Fluttertoast.showToast(
+                      //   msg: 'Authenticated!',
+                      //   toastLength: Toast.LENGTH_SHORT,
+                      //   gravity: ToastGravity.BOTTOM,
+                      //   backgroundColor: Colors.green,
+                      //   textColor: Colors.white,
+                      //   fontSize: 15,
+                      // );
                     } else {
                       print(val.data['msg']);
                       Fluttertoast.showToast(

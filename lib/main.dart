@@ -1,5 +1,6 @@
 import 'package:beats/provider/bottomController.dart';
 import 'package:beats/provider/musicTimeLine.dart';
+import 'package:beats/services.dart/auth.dart';
 import 'package:beats/ui/pages/authScreen.dart';
 import 'package:beats/ui/widgets/commonScaffold.dart';
 import 'package:flutter/material.dart';
@@ -24,8 +25,11 @@ class MyApp extends StatelessWidget {
               create: (ctx) => MusicTimeLine()),
           ChangeNotifierProvider<BottomController>(
               create: (ctx) => BottomController()),
+          ChangeNotifierProvider<Auth>(
+            create: (ctx) => Auth(),
+          ),
         ],
-        child: AuthScreen(),
+        child: CommonScaffold(),
       ),
     );
   }

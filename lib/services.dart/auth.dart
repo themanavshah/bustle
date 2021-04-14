@@ -1,17 +1,28 @@
+import 'dart:convert';
+
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
-class AuthService {
+class Auth with ChangeNotifier {
+  //var token;
   Dio dio = new Dio();
+
+  // String get token {
+  //   return token;
+  // }
 
   login(email, password) async {
     try {
-      return await dio.post(
+      var response = await dio.post(
         'https://cryptobustle.herokuapp.com/authenticate',
         data: {"email": email, "password": password},
         options: Options(contentType: Headers.formUrlEncodedContentType),
       );
+      //token = response.data['token'];
+      notifyListeners();
+      return response;
     } on DioError catch (e) {
       Fluttertoast.showToast(
         msg: e.response.data['msg'],
@@ -24,9 +35,19 @@ class AuthService {
     }
   }
 
+  loginToken(email, password) async {
+    var response = await dio.post(
+      'https://cryptobustle.herokuapp.com/authenticate',
+      data: {"email": email, "password": password},
+      options: Options(contentType: Headers.formUrlEncodedContentType),
+    );
+    //token = response.data['token'];
+    notifyListeners();
+  }
+
   signUp(name, email, password) async {
     try {
-      return await dio.post(
+      var response = await dio.post(
         'https://cryptobustle.herokuapp.com/adduser',
         data: {
           "name": name,
@@ -35,6 +56,8 @@ class AuthService {
         },
         options: Options(contentType: Headers.formUrlEncodedContentType),
       );
+      //loginToken(email, password);
+      return response;
     } on DioError catch (e) {
       Fluttertoast.showToast(
         msg: e.response.data['msg'],

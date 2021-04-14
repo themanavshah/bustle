@@ -1,8 +1,12 @@
+import 'package:beats/services.dart/auth.dart';
 import 'package:beats/ui/pages/login.dart';
 import 'package:beats/ui/pages/signup.dart';
 import 'package:flutter/material.dart';
 
 class AuthScreen extends StatelessWidget {
+  Auth auth;
+
+  AuthScreen(auth);
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -112,7 +116,7 @@ class AuthScreen extends StatelessWidget {
                 onPressed: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => Login()),
+                    MaterialPageRoute(builder: (context) => Login(auth)),
                   );
                 },
                 child: Row(

@@ -2,6 +2,8 @@ import 'dart:async';
 import 'dart:ui';
 
 import 'package:beats/provider/musicTimeLine.dart';
+import 'package:beats/services.dart/auth.dart';
+import 'package:beats/ui/pages/authScreen.dart';
 import 'package:beats/ui/pages/dashboardPage.dart';
 import 'package:beats/oldWidget/bottomWidget.dart';
 import 'package:beats/ui/pages/explorePage.dart';
@@ -51,20 +53,24 @@ class _CommonScaffoldState extends State<CommonScaffold>
   Widget build(BuildContext context) {
     var musicTimeLine2 = Provider.of<MusicTimeLine>(context, listen: false);
     final controller = Provider.of<BottomController>(context);
-    return Scaffold(
-      backgroundColor: Colors.black,
-      body: Stack(
-        children: [
-          if (controller.pageSelected == 0)
-            Dashboard(musicTimeLine: musicTimeLine2, controller: controller),
-          if (controller.pageSelected == 1) Explore(),
-          if (controller.pageSelected == 2) Profile(),
-          // BottomNavigator(
-          //   musicTimeLine: musicTimeLine2,
-          //   controller: controller,
-          // )
-        ],
-      ),
-    );
+    var auth = Provider.of<Auth>(context, listen: false);
+    return controller.token != null
+        ? Scaffold(
+            backgroundColor: Colors.black,
+            body: Stack(
+              children: [
+                if (controller.pageSelected == 0)
+                  Dashboard(
+                      musicTimeLine: musicTimeLine2, controller: controller),
+                if (controller.pageSelected == 1) Explore(),
+                if (controller.pageSelected == 2) Profile(),
+                // BottomNavigator(
+                //   musicTimeLine: musicTimeLine2,
+                //   controller: controller,
+                // )
+              ],
+            ),
+          )
+        : AuthScreen(controller);
   }
 }
