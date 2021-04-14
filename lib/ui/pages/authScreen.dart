@@ -1,3 +1,4 @@
+import 'package:beats/ui/pages/login.dart';
 import 'package:beats/ui/pages/signup.dart';
 import 'package:flutter/material.dart';
 
@@ -8,7 +9,10 @@ class AuthScreen extends StatelessWidget {
       backgroundColor: Colors.black,
       body: Center(
         child: Padding(
-          padding: const EdgeInsets.all(35.0),
+          padding: const EdgeInsets.symmetric(
+            horizontal: 35.0,
+            vertical: 50,
+          ),
           child: Column(
             children: [
               CircleAvatar(
@@ -87,13 +91,13 @@ class AuthScreen extends StatelessWidget {
                       children: [
                         CircleAvatar(
                           backgroundColor: Colors.transparent,
-                          backgroundImage: AssetImage('assets/google.png'),
+                          backgroundImage: AssetImage('assets/gemini.png'),
                         ),
                         Text(
-                          '  Sign Up with Google',
+                          ' Sign Up with Gemini',
                           textAlign: TextAlign.center,
                           style: TextStyle(
-                            color: Color(0xFFF89E63),
+                            color: Colors.black,
                             fontSize: 18,
                             fontWeight: FontWeight.bold,
                           ),
@@ -105,7 +109,12 @@ class AuthScreen extends StatelessWidget {
               ),
               SizedBox(height: 35),
               TextButton(
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => Login()),
+                  );
+                },
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [

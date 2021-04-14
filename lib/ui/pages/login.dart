@@ -1,16 +1,16 @@
 import 'package:beats/services.dart/auth.dart';
+import 'package:beats/ui/pages/signup.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
-class SignUp extends StatefulWidget {
+class Login extends StatefulWidget {
   @override
-  _SignUpState createState() => _SignUpState();
+  _LoginState createState() => _LoginState();
 }
 
-class _SignUpState extends State<SignUp> {
-  var name, email, password, confirmPassword;
+class _LoginState extends State<Login> {
+  var email, password, token;
   bool passVisible = true;
-  bool confirmPassVisible = true;
 
   @override
   Widget build(BuildContext context) {
@@ -40,9 +40,9 @@ class _SignUpState extends State<SignUp> {
                       })
                 ],
               ),
-              SizedBox(height: 100),
+              SizedBox(height: 150),
               Text(
-                'Welcome to bustle',
+                'Welcome back',
                 //textAlign: TextAlign.center,
                 style: TextStyle(
                   color: Colors.white,
@@ -52,7 +52,7 @@ class _SignUpState extends State<SignUp> {
               ),
               SizedBox(height: 10),
               Text(
-                'Get Started with NFTs and crypto.',
+                'Sign In to your account.',
                 //textAlign: TextAlign.center,
                 style: TextStyle(
                   color: Colors.grey,
@@ -61,34 +61,6 @@ class _SignUpState extends State<SignUp> {
                 ),
               ),
               SizedBox(height: 30),
-              Container(
-                height: 60,
-                width: MediaQuery.of(context).size.width,
-                child: TextFormField(
-                  cursorColor: Colors.white,
-                  style: TextStyle(color: Colors.white),
-                  onChanged: (value) {
-                    name = value;
-                  },
-                  decoration: InputDecoration(
-                    //style: TextStyle(color: Colors.white),
-                    hintStyle: TextStyle(
-                      fontSize: 15,
-                      fontWeight: FontWeight.w500,
-                      color: Colors.white,
-                    ),
-                    hintText: 'Name',
-                    //suffixIcon: Icon(Icons.search),
-                    border: InputBorder.none,
-                    contentPadding: EdgeInsets.all(20),
-                  ),
-                ),
-                decoration: BoxDecoration(
-                  color: Colors.grey.withOpacity(0.4),
-                  borderRadius: BorderRadius.circular(10),
-                ),
-              ),
-              SizedBox(height: 20),
               Container(
                 height: 60,
                 width: MediaQuery.of(context).size.width,
@@ -153,92 +125,42 @@ class _SignUpState extends State<SignUp> {
                   borderRadius: BorderRadius.circular(10),
                 ),
               ),
-              SizedBox(height: 20),
-              Container(
-                height: 60,
-                width: MediaQuery.of(context).size.width,
-                child: TextFormField(
-                  obscureText: confirmPassVisible,
-                  cursorColor: Colors.white,
-                  style: TextStyle(color: Colors.white),
-                  onChanged: (value) {
-                    confirmPassword = value;
-                  },
-                  decoration: InputDecoration(
-                    suffixIcon: IconButton(
-                      onPressed: () {
-                        setState(() {
-                          confirmPassVisible = !confirmPassVisible;
-                        });
-                      },
-                      icon: Icon(
-                        confirmPassVisible
-                            ? Icons.visibility
-                            : Icons.visibility_off,
-                        color: Colors.white,
-                        size: 20,
-                      ),
-                    ),
-                    hintStyle: TextStyle(
-                      fontSize: 15,
-                      fontWeight: FontWeight.w500,
-                      color: Colors.white,
-                    ),
-                    hintText: 'Confirm password',
-                    border: InputBorder.none,
-                    contentPadding: EdgeInsets.all(20),
-                  ),
-                ),
-                decoration: BoxDecoration(
-                  color: Colors.grey.withOpacity(0.4),
-                  borderRadius: BorderRadius.circular(10),
-                ),
-              ),
               SizedBox(height: 60),
               ElevatedButton(
                 style: ElevatedButton.styleFrom(
                   primary: Color(0xFFF89E63), // background // foreground
                 ),
                 onPressed: () {
-                  password == confirmPassword
-                      ? AuthService().signUp(name, email, password).then((val) {
-                          if (val.data['success']) {
-                            // token = val.data['token'];
-                            // print(token);
-                            Fluttertoast.showToast(
-                              msg: 'Authenticated!',
-                              toastLength: Toast.LENGTH_SHORT,
-                              gravity: ToastGravity.BOTTOM,
-                              backgroundColor: Colors.green,
-                              textColor: Colors.white,
-                              fontSize: 15,
-                            );
-                          } else {
-                            print(val.data['msg']);
-                            Fluttertoast.showToast(
-                              msg: val.data['msg'],
-                              toastLength: Toast.LENGTH_SHORT,
-                              gravity: ToastGravity.BOTTOM,
-                              backgroundColor: Colors.red,
-                              textColor: Colors.white,
-                              fontSize: 15,
-                            );
-                          }
-                        })
-                      : Fluttertoast.showToast(
-                          msg: 'Passwords don\'t match',
-                          toastLength: Toast.LENGTH_SHORT,
-                          gravity: ToastGravity.BOTTOM,
-                          backgroundColor: Colors.red,
-                          textColor: Colors.white,
-                          fontSize: 15,
-                        );
+                  AuthService().login(email, password).then((val) {
+                    if (val.data['success']) {
+                      token = val.data['token'];
+                      print(token);
+                      Fluttertoast.showToast(
+                        msg: 'Authenticated!',
+                        toastLength: Toast.LENGTH_SHORT,
+                        gravity: ToastGravity.BOTTOM,
+                        backgroundColor: Colors.green,
+                        textColor: Colors.white,
+                        fontSize: 15,
+                      );
+                    } else {
+                      print(val.data['msg']);
+                      Fluttertoast.showToast(
+                        msg: val.data['msg'],
+                        toastLength: Toast.LENGTH_SHORT,
+                        gravity: ToastGravity.BOTTOM,
+                        backgroundColor: Colors.red,
+                        textColor: Colors.white,
+                        fontSize: 15,
+                      );
+                    }
+                  });
                 },
                 child: Container(
                   height: 50,
                   child: Center(
                     child: Text(
-                      'Sign Up',
+                      'Continue',
                       textAlign: TextAlign.center,
                       style: TextStyle(
                         color: Colors.white,
@@ -247,6 +169,39 @@ class _SignUpState extends State<SignUp> {
                       ),
                     ),
                   ),
+                ),
+              ),
+              SizedBox(height: 30),
+              TextButton(
+                onPressed: () {
+                  Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(builder: (context) => SignUp()),
+                  );
+                },
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      'Don\'t have an account?  ',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 15,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                    Text(
+                      'Sign Up',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        decoration: TextDecoration.underline,
+                        color: Colors.white,
+                        fontSize: 15,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                  ],
                 ),
               )
             ],
