@@ -6,12 +6,12 @@ import 'package:provider/provider.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
 class Auth with ChangeNotifier {
-  //var token;
+  var _token;
   Dio dio = new Dio();
 
-  // String get token {
-  //   return token;
-  // }
+  String get token {
+    return _token;
+  }
 
   login(email, password) async {
     try {
@@ -20,7 +20,8 @@ class Auth with ChangeNotifier {
         data: {"email": email, "password": password},
         options: Options(contentType: Headers.formUrlEncodedContentType),
       );
-      //token = response.data['token'];
+      _token = response.data['token'];
+      print('auth' + '$_token');
       notifyListeners();
       return response;
     } on DioError catch (e) {
@@ -41,7 +42,7 @@ class Auth with ChangeNotifier {
       data: {"email": email, "password": password},
       options: Options(contentType: Headers.formUrlEncodedContentType),
     );
-    //token = response.data['token'];
+    _token = response.data['token'];
     notifyListeners();
   }
 
@@ -56,7 +57,7 @@ class Auth with ChangeNotifier {
         },
         options: Options(contentType: Headers.formUrlEncodedContentType),
       );
-      //loginToken(email, password);
+      loginToken(email, password);
       return response;
     } on DioError catch (e) {
       Fluttertoast.showToast(

@@ -13,24 +13,28 @@ void main() {
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'Bustle',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      home: MultiProvider(
-        providers: [
-          ChangeNotifierProvider<MusicTimeLine>(
-              create: (ctx) => MusicTimeLine()),
-          ChangeNotifierProvider<BottomController>(
-              create: (ctx) => BottomController()),
-          ChangeNotifierProvider<Auth>(
-            create: (ctx) => Auth(),
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider<MusicTimeLine>(
+          create: (ctx) => MusicTimeLine(),
+        ),
+        ChangeNotifierProvider<BottomController>(
+          create: (ctx) => BottomController(),
+        ),
+        ChangeNotifierProvider<Auth>(
+          create: (ctx) => Auth(),
+        ),
+      ],
+      child: Consumer<Auth>(builder: (context, auth, _) {
+        return MaterialApp(
+          debugShowCheckedModeBanner: false,
+          title: 'Bustle',
+          theme: ThemeData(
+            primarySwatch: Colors.blue,
           ),
-        ],
-        child: CommonScaffold(),
-      ),
+          home: AuthScreen(),
+        );
+      }),
     );
   }
 }

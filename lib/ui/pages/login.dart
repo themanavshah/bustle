@@ -1,14 +1,17 @@
 import 'package:beats/provider/bottomController.dart';
+import 'package:beats/provider/musicTimeLine.dart';
 import 'package:beats/services.dart/auth.dart';
 import 'package:beats/ui/pages/signup.dart';
 import 'package:beats/ui/widgets/commonScaffold.dart';
+import 'package:beats/ui/widgets/playlist.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
 class Login extends StatefulWidget {
-  BottomController auth;
+  MusicTimeLine musicTimeLine;
+  BottomController controller;
 
-  Login(auth);
+  Login({this.musicTimeLine, this.controller});
   @override
   _LoginState createState() => _LoginState();
 }
@@ -16,6 +19,10 @@ class Login extends StatefulWidget {
 class _LoginState extends State<Login> {
   var email, password, token;
   bool passVisible = true;
+
+  submit(email, password) async {
+    await Auth().login(email, password);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -136,35 +143,31 @@ class _LoginState extends State<Login> {
                   primary: Color(0xFFF89E63), // background // foreground
                 ),
                 onPressed: () {
-                  Auth().login(email, password).then((val) {
-                    if (val.data['success']) {
-                      token = val.data['token'];
-                      widget.auth.token = token;
-                      print(token);
-                      // Navigator.push(
-                      //     context,
-                      //     MaterialPageRoute(
-                      //       builder: (context) => CommonScaffold(),
-                      //     ));
-                      // Fluttertoast.showToast(
-                      //   msg: 'Authenticated!',
-                      //   toastLength: Toast.LENGTH_SHORT,
-                      //   gravity: ToastGravity.BOTTOM,
-                      //   backgroundColor: Colors.green,
-                      //   textColor: Colors.white,
-                      //   fontSize: 15,
-                      // );
-                    } else {
-                      print(val.data['msg']);
-                      Fluttertoast.showToast(
-                        msg: val.data['msg'],
-                        toastLength: Toast.LENGTH_SHORT,
-                        gravity: ToastGravity.BOTTOM,
-                        backgroundColor: Colors.red,
-                        textColor: Colors.white,
-                        fontSize: 15,
-                      );
-                    }
+                  setState(() {
+                    Auth().login(email, password).then((val) {
+                      if (val.data['success']) {
+                        token = val.data['token'];
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => CommonScaffold(
+                              musicTimeLine: widget.musicTimeLine,
+                              controller: widget.controller,
+                            ),
+                          ),
+                        );
+                      } else {
+                        print(val.data['msg']);
+                        Fluttertoast.showToast(
+                          msg: val.data['msg'],
+                          toastLength: Toast.LENGTH_SHORT,
+                          gravity: ToastGravity.BOTTOM,
+                          backgroundColor: Colors.red,
+                          textColor: Colors.white,
+                          fontSize: 15,
+                        );
+                      }
+                    });
                   });
                 },
                 child: Container(

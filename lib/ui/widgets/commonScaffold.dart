@@ -16,6 +16,10 @@ import '../../provider/bottomController.dart';
 import 'musicPlayerScreen.dart';
 
 class CommonScaffold extends StatefulWidget {
+  MusicTimeLine musicTimeLine;
+  BottomController controller;
+
+  CommonScaffold({this.musicTimeLine, this.controller});
   @override
   _CommonScaffoldState createState() => _CommonScaffoldState();
 }
@@ -27,9 +31,9 @@ class _CommonScaffoldState extends State<CommonScaffold>
 
   @override
   void initState() {
-    var musicTimeLine = Provider.of<MusicTimeLine>(context, listen: false);
+    //var musicTimeLine = Provider.of<MusicTimeLine>(context, listen: false);
     Timer.periodic(Duration(seconds: 1), (timer) {
-      musicTimeLine.incrementTime();
+      widget.musicTimeLine.incrementTime();
     });
     rotationController = new AnimationController(
       vsync: this,
@@ -41,7 +45,7 @@ class _CommonScaffoldState extends State<CommonScaffold>
         if (rotationController.status == AnimationStatus.completed) {
           rotationController.repeat();
         }
-        if (musicTimeLine.timeSpent == musicTimeLine.time) {
+        if (widget.musicTimeLine.timeSpent == widget.musicTimeLine.time) {
           rotationController.stop();
         }
       });
@@ -51,26 +55,26 @@ class _CommonScaffoldState extends State<CommonScaffold>
 
   @override
   Widget build(BuildContext context) {
-    var musicTimeLine2 = Provider.of<MusicTimeLine>(context, listen: false);
-    final controller = Provider.of<BottomController>(context);
-    var auth = Provider.of<Auth>(context, listen: false);
-    return controller.token != null
-        ? Scaffold(
-            backgroundColor: Colors.black,
-            body: Stack(
-              children: [
-                if (controller.pageSelected == 0)
-                  Dashboard(
-                      musicTimeLine: musicTimeLine2, controller: controller),
-                if (controller.pageSelected == 1) Explore(),
-                if (controller.pageSelected == 2) Profile(),
-                // BottomNavigator(
-                //   musicTimeLine: musicTimeLine2,
-                //   controller: controller,
-                // )
-              ],
+    // final musicTimeLine = Provider.of<MusicTimeLine>(context, listen: false);
+    // final widget.controller = Provider.of<BottomController>(context);
+    // final auth = Provider.of<Auth>(context, listen: false);
+    return Scaffold(
+      backgroundColor: Colors.black,
+      body: Stack(
+        children: [
+          if (widget.controller.pageSelected == 0)
+            Dashboard(
+              musicTimeLine: widget.musicTimeLine,
+              controller: widget.controller,
             ),
+          if (widget.controller.pageSelected == 1) Explore(),
+          if (widget.controller.pageSelected == 2) Profile(),
+          BottomNavigator(
+            musicTimeLine: widget.musicTimeLine,
+            controller: widget.controller,
           )
-        : AuthScreen(controller);
+        ],
+      ),
+    );
   }
 }

@@ -37,7 +37,7 @@ class _BottomNavigatorState extends State<BottomNavigator>
         if (rotationController.status == AnimationStatus.completed) {
           rotationController.repeat();
         }
-        if (widget.musicTimeLine.timeSpent == widget.musicTimeLine.time) {
+        if (!widget.musicTimeLine.isPlaying) {
           rotationController.stop();
         }
       });

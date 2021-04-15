@@ -1,14 +1,16 @@
-import 'package:beats/services.dart/auth.dart';
+import 'package:beats/provider/bottomController.dart';
+import 'package:beats/provider/musicTimeLine.dart';
+//import 'package:beats/services.dart/controller.dart';
 import 'package:beats/ui/pages/login.dart';
 import 'package:beats/ui/pages/signup.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class AuthScreen extends StatelessWidget {
-  Auth auth;
-
-  AuthScreen(auth);
   @override
   Widget build(BuildContext context) {
+    final musicTimeLine = Provider.of<MusicTimeLine>(context, listen: false);
+    final controller = Provider.of<BottomController>(context);
     return Scaffold(
       backgroundColor: Colors.black,
       body: Center(
@@ -116,7 +118,11 @@ class AuthScreen extends StatelessWidget {
                 onPressed: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => Login(auth)),
+                    MaterialPageRoute(
+                        builder: (context) => Login(
+                              musicTimeLine: musicTimeLine,
+                              controller: controller,
+                            )),
                   );
                 },
                 child: Row(
