@@ -58,7 +58,11 @@ class AuthScreen extends StatelessWidget {
                 onTap: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => SignUp()),
+                    MaterialPageRoute(
+                        builder: (context) => SignUp(
+                              musicTimeLine: musicTimeLine,
+                              controller: controller,
+                            )),
                   );
                 },
                 child: Container(

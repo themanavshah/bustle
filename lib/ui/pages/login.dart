@@ -143,32 +143,33 @@ class _LoginState extends State<Login> {
                   primary: Color(0xFFF89E63), // background // foreground
                 ),
                 onPressed: () {
-                  setState(() {
-                    Auth().login(email, password).then((val) {
-                      if (val.data['success']) {
-                        token = val.data['token'];
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => CommonScaffold(
-                              musicTimeLine: widget.musicTimeLine,
-                              controller: widget.controller,
-                            ),
-                          ),
-                        );
-                      } else {
-                        print(val.data['msg']);
-                        Fluttertoast.showToast(
-                          msg: val.data['msg'],
-                          toastLength: Toast.LENGTH_SHORT,
-                          gravity: ToastGravity.BOTTOM,
-                          backgroundColor: Colors.red,
-                          textColor: Colors.white,
-                          fontSize: 15,
-                        );
-                      }
-                    });
-                  });
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => CommonScaffold(
+                        musicTimeLine: widget.musicTimeLine,
+                        controller: widget.controller,
+                      ),
+                    ),
+                  );
+                  // setState(() {
+                  //   Auth().login(email, password).then((val) {
+                  //     if (val.data['success']) {
+                  //       token = val.data['token'];
+                  //     } else {
+                  //       print(val.data['msg']);
+                  //       Fluttertoast.showToast(
+                  //         msg: val.data['msg'],
+                  //         toastLength: Toast.LENGTH_SHORT,
+                  //         gravity: ToastGravity.BOTTOM,
+                  //         backgroundColor: Colors.red,
+                  //         textColor: Colors.white,
+                  //         fontSize: 15,
+                  //       );
+                  //     }
+                  //   });
+                  // }
+                  //);
                 },
                 child: Container(
                   height: 50,

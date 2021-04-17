@@ -1,9 +1,15 @@
+import 'package:beats/provider/bottomController.dart';
+import 'package:beats/provider/musicTimeLine.dart';
 import 'package:beats/services.dart/auth.dart';
 import 'package:beats/ui/widgets/commonScaffold.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
 class SignUp extends StatefulWidget {
+  MusicTimeLine musicTimeLine;
+  BottomController controller;
+
+  SignUp({this.musicTimeLine, this.controller});
   @override
   _SignUpState createState() => _SignUpState();
 }
@@ -204,13 +210,15 @@ class _SignUpState extends State<SignUp> {
                   password == confirmPassword
                       ? Auth().signUp(name, email, password).then((val) {
                           if (val.data['success']) {
-                            // token = val.data['token'];
-                            // print(token);
-                            // Navigator.push(
-                            //     context,
-                            //     MaterialPageRoute(
-                            //       builder: (context) => CommonScaffold(),
-                            //     ));
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => CommonScaffold(
+                                  musicTimeLine: widget.musicTimeLine,
+                                  controller: widget.controller,
+                                ),
+                              ),
+                            );
                           } else {
                             print(val.data['msg']);
                             Fluttertoast.showToast(

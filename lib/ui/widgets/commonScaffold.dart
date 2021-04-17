@@ -5,7 +5,7 @@ import 'package:beats/provider/musicTimeLine.dart';
 import 'package:beats/services.dart/auth.dart';
 import 'package:beats/ui/pages/authScreen.dart';
 import 'package:beats/ui/pages/dashboardPage.dart';
-import 'package:beats/oldWidget/bottomWidget.dart';
+//import 'package:beats/oldWidget/bottomWidget.dart';
 import 'package:beats/ui/pages/explorePage.dart';
 import 'package:beats/ui/pages/profilePage.dart';
 import 'package:beats/ui/widgets/bottomWidget.dart';
