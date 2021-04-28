@@ -23,7 +23,7 @@ class BottomNavigator extends StatefulWidget {
 class _BottomNavigatorState extends State<BottomNavigator>
     with TickerProviderStateMixin {
   AnimationController rotationController;
-  //var widget.controller.blurHeight = 180;
+  var blurHeight = 180;
 
   @override
   void initState() {
@@ -65,13 +65,13 @@ class _BottomNavigatorState extends State<BottomNavigator>
           Positioned(
             bottom: 0,
             left: 0,
-            height: double.parse("$widget.controller.blurHeight"),
+            height: double.parse("$blurHeight"),
             width: MediaQuery.of(context).size.width - 50,
             child: SwipeDetector(
               onSwipeDown: () {
-                if (widget.controller.blurHeight >= 600) {
+                if (blurHeight >= 600) {
                   setState(() {
-                    widget.controller.blurHeight = 180;
+                    blurHeight = 180;
                   });
                 } else {
                   print("extend");
@@ -116,7 +116,7 @@ class _BottomNavigatorState extends State<BottomNavigator>
                           setState(() {
                             print("Home");
                             widget.controller.pageSelected = 0;
-                            widget.controller.blurHeight = 180;
+                            blurHeight = 180;
                           });
                         },
                         child: Icon(Icons.home,
@@ -154,11 +154,11 @@ class _BottomNavigatorState extends State<BottomNavigator>
               ],
             ),
           ),
-          widget.controller.blurHeight > 600
+          blurHeight > 600
               ? MusicPlayerScreen(
-                    musicTimeLine: widget.musicTimeLine,
-                    controller: widget.controller,
-                  )
+                  musicTimeLine: widget.musicTimeLine,
+                  controller: widget.controller,
+                )
               : Positioned(
                   bottom: 90,
                   left: 30,
@@ -172,7 +172,7 @@ class _BottomNavigatorState extends State<BottomNavigator>
                         GestureDetector(
                           onTap: () {
                             setState(() {
-                              widget.controller.blurHeight = 880;
+                              blurHeight = 880;
                             });
                             print("Will extend.");
                           },
